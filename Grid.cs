@@ -63,10 +63,7 @@
         /// <returns>True if the position is inside the grid, otherwise false.</returns>
         public bool Inside(int row, int column)
         {
-            // Check if row and column is inside the boundaries
-            if (row < 0 || row >= Rows) return false;
-            if (column < 0 || column >= Columns) return false;
-            return true;
+            return row >= 0 && row < Rows && column >= 0 && column < Columns;
         }
 
         /// <summary>
@@ -87,8 +84,7 @@
         /// <returns>True if the position is empty, otherwise false.</returns>
         public bool Empty(int row, int column)
         {
-            if (!Inside(row, column)) return false;
-            return grid[row, column] == 0;
+            return Inside(row, column) && grid[row, column] == 0;
         }
 
         /// <summary>
