@@ -6,7 +6,7 @@ namespace Pentotris
     /// <summary>
     /// Manages the queue of upcoming blocks in the game.
     /// </summary>
-    internal class BlockQueue
+    internal class Queue
     {
         /// <summary>
         /// The array of possible tetromino blocks.
@@ -35,7 +35,7 @@ namespace Pentotris
         /// <summary>
         /// Initializes a new instance of the <see cref="BlockQueue"/> class.
         /// </summary>
-        internal BlockQueue()
+        internal Queue()
         {
             NextBlock = RandomBlock();
         }
