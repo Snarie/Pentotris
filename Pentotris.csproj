@@ -8,4 +8,44 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Sprites\Background.png" />
+    <None Remove="Sprites\Block-Empty.png" />
+    <None Remove="Sprites\Block-I.png" />
+    <None Remove="Sprites\Block-J.png" />
+    <None Remove="Sprites\Block-L.png" />
+    <None Remove="Sprites\Block-O.png" />
+    <None Remove="Sprites\Block-S.png" />
+    <None Remove="Sprites\Block-T.png" />
+    <None Remove="Sprites\Block-Z.png" />
+    <None Remove="Sprites\TileBlue.png" />
+    <None Remove="Sprites\TileCyan.png" />
+    <None Remove="Sprites\TileEmpty.png" />
+    <None Remove="Sprites\TileGreen.png" />
+    <None Remove="Sprites\TileOrange.png" />
+    <None Remove="Sprites\TilePurple.png" />
+    <None Remove="Sprites\TileRed.png" />
+    <None Remove="Sprites\TileYellow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Sprites\Background.png" />
+    <Resource Include="Sprites\Block-Empty.png" />
+    <Resource Include="Sprites\Block-I.png" />
+    <Resource Include="Sprites\Block-J.png" />
+    <Resource Include="Sprites\Block-L.png" />
+    <Resource Include="Sprites\Block-O.png" />
+    <Resource Include="Sprites\Block-S.png" />
+    <Resource Include="Sprites\Block-T.png" />
+    <Resource Include="Sprites\Block-Z.png" />
+    <Resource Include="Sprites\TileBlue.png" />
+    <Resource Include="Sprites\TileCyan.png" />
+    <Resource Include="Sprites\TileEmpty.png" />
+    <Resource Include="Sprites\TileGreen.png" />
+    <Resource Include="Sprites\TileOrange.png" />
+    <Resource Include="Sprites\TilePurple.png" />
+    <Resource Include="Sprites\TileRed.png" />
+    <Resource Include="Sprites\TileYellow.png" />
+  </ItemGroup>
+
 </Project>
