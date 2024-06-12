@@ -8,7 +8,7 @@
         };
 
         internal override int Id => 11;
-        protected internal override Point StartOffset => new(0, 3);
+        protected internal override Point StartOffset => new(1, 3);
         protected internal override int GridSize => 5;
         protected internal override Point[] Position
         {

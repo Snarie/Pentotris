@@ -1,5 +1,6 @@
 ﻿using Pentotris.Shapes.Tetromino;
 using Pentotris.Shapes;
+using Pentotris.Shapes.Pentomino;
 
 namespace Pentotris
 {
@@ -13,13 +14,31 @@ namespace Pentotris
         /// </summary>
         private readonly Block[] tetrominos = new Block[]
         {
-            new ITetromino(),
-            new JTetromino(),
-            new LTetromino(),
-            new OTetromino(),
-            new STetromino(),   
-            new TTetromino(),
-            new ZTetromino()
+            new ITetromino(), //1
+            new JTetromino(), //2
+            new LTetromino(), //3
+            new OTetromino(), //4
+            new STetromino(), //5
+            new TTetromino(), //6
+            new ZTetromino(), //7
+            new FPentomino(), //8
+            new GPentomino(), //9
+            new HPentomino(), //10
+            new IPentomino(), //11
+            new JPentomino(), //12
+            new LPentomino(), //13
+            new NPentomino(), //14
+            new PPentomino(), //15
+            new QPentomino(), //16
+            new RPentomino(), //17
+            new SPentomino(), //18
+            new TPentomino(), //19
+            new UPentomino(), //20
+            new VPentomino(), //21
+            new WPentomino(), //22
+            new XPentomino(), //23
+            new YPentomino(), //24
+            new ZPentomino()  //25
         };
 
         /// <summary>
