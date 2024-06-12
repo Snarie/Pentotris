@@ -10,9 +10,9 @@ namespace Pentotris
     internal class Queue
     {
         /// <summary>
-        /// The array of possible tetromino blocks.
+        /// The array of possible tetromino and pentomino blocks.
         /// </summary>
-        private readonly Block[] tetrominos = new Block[]
+        private readonly Block[] blocks = new Block[]
         {
             new ITetromino(), //1
             new JTetromino(), //2
@@ -52,7 +52,7 @@ namespace Pentotris
         internal Block NextBlock { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlockQueue"/> class.
+        /// Initializes a new instance of the <see cref="Queue"/> class.
         /// </summary>
         internal Queue()
         {
@@ -65,7 +65,21 @@ namespace Pentotris
         /// <returns>A random <see cref="Block"/>.</returns>
         private Block RandomBlock()
         {
-            return tetrominos[random.Next(tetrominos.Length)];
+            // Generate random between 0 and 2
+            int randomNumber = random.Next(3);
+
+            // 66% chance to select a tetromino
+            if ( randomNumber < 2)
+            {
+                // Select from tetrominos (first 7 elements)
+                return blocks[random.Next(7)];
+            }
+            else
+            {
+                // Select from pentominos (remaining 18 elements)
+                return blocks[7 + random.Next(12)];
+            }
+            //return tetrominos[random.Next(tetrominos.Length)];
         }
 
         /// <summary>
