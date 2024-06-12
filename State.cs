@@ -53,15 +53,7 @@ namespace Pentotris
         /// <returns>True if the block fits, otherwise false.</returns>
         private bool BlockFits()
         {
-            //return !CurrentBlock.TilePosition().Any(point => !GameGrid.Empty(point));
-            foreach (Point point in CurrentBlock.TilePosition())
-            {
-                if (!GameGrid.Empty(point))
-                {
-                    return false;
-                }
-            }
-            return true;
+            return !CurrentBlock.TilePosition().Any(point => !GameGrid.Empty(point));
         }
 
         /// <summary>

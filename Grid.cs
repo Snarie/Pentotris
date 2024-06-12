@@ -131,7 +131,6 @@
         /// <param name="row">The row index.</param>
         public void ClearRow(int row)
         {
-
             for (int column = 0; column < Columns; column++)
             {
                 grid[row, column] = 0;
