@@ -1,10 +1,10 @@
-﻿namespace Pentotris.Shapes.Tetromino
+﻿namespace Pentotris.Shapes.Pentomino
 {
     internal class FPentomino : Block
     {
         private Point[] position = new Point[]
         {
-            new(0,1), new(1,0), new(1,1), new(1,2), new(2,0)
+            new(0,1), new(0,2), new(1,0), new(1,1), new(2,1)
         };
 
         internal override int Id => 8;
