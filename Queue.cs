@@ -17,7 +17,7 @@ namespace Pentotris
             new JTetromino(),
             new LTetromino(),
             new OTetromino(),
-            new STetromino(),
+            new STetromino(),   
             new TTetromino(),
             new ZTetromino()
         };
