@@ -2,9 +2,9 @@
 {
     internal interface IGridComponent
     {
-        void Add(IGridComponent component);
-        void Remove(IGridComponent component);
-        IGridComponent GetChild(int index);
+        //void Add(IGridComponent component);
+        //void Remove(IGridComponent component);
+        IEnumerable<IGridComponent> GetChildren();
         void Operation();
     }
 }

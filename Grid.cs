@@ -1,14 +1,16 @@
-﻿namespace Pentotris
+﻿using Pentotris.Interfaces;
+
+namespace Pentotris
 {
     /// <summary>
     /// Represents the grid of the Tetris game.
     /// </summary>
-    internal class Grid
+    internal class Grid : IGridComponent
     {
         /// <summary>
         /// The 2D array representing the grid.
         /// </summary>
-        private readonly int[,] grid;
+        private readonly Cell[,] cells;
 
         /// <summary>
         /// Gets the number of rows in the grid.
@@ -26,10 +28,10 @@
         /// <param name="row">The row index.</param>
         /// <param name="column">The column index.</param>
         /// <returns>The value at the specified position in the grid.</returns>
-        public int this[int row, int column]
+        public Cell this[int row, int column]
         {
-            get => grid[row, column];
-            set => grid[row, column] = value;
+            get => cells[row, column];
+            set => cells[row, column] = value;
         }
 
         /// <summary>
@@ -37,10 +39,10 @@
         /// </summary>
         /// <param name="point">The point representing the position.</param>
         /// <returns>The value at the specified position in the grid.</returns>
-        public int this[Point point]
+        public Cell this[Point point]
         {
-            get => grid[point.Row, point.Column];
-            set => grid[point.Row, point.Column] = value;
+            get => cells[point.Row, point.Column];
+            set => cells[point.Row, point.Column] = value;
         }
 
         /// <summary>
@@ -52,7 +54,16 @@
         {
             Rows = rows;
             Columns = columns;
-            grid = new int[rows, columns];
+            //grid = new int[rows, columns];
+            cells = new Cell[rows, columns];
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int column = 0; column < columns; column++)
+                {
+                    cells[row, column] = new Cell(row, column);
+                }
+            }
         }
 
         /// <summary>
@@ -67,16 +78,6 @@
         }
 
         /// <summary>
-        /// Checks if the specified position is inside the grid.
-        /// </summary>
-        /// <param name="point">The point representing the position.</param>
-        /// <returns>True if the position is inside the grid, otherwise false.</returns>
-        public bool Inside(Point point)
-        {
-            return Inside(point.Row, point.Column);
-        }
-
-        /// <summary>
         /// Checks if the specified position is empty.
         /// </summary>
         /// <param name="row">The row index.</param>
@@ -84,7 +85,7 @@
         /// <returns>True if the position is empty, otherwise false.</returns>
         public bool Empty(int row, int column)
         {
-            return Inside(row, column) && grid[row, column] == 0;
+            return Inside(row, column) && cells[row, column].Value == 0;
         }
 
         /// <summary>
@@ -133,7 +134,7 @@
         {
             for (int column = 0; column < Columns; column++)
             {
-                grid[row, column] = 0;
+                cells[row, column].Value = 0;
             }
         }
 
@@ -146,8 +147,8 @@
         {
             for (int column = 0; column < Columns; column++)
             {
-                grid[row + rowAmount, column] = grid[row, column];
-                grid[row, column] = 0;
+                cells[row + rowAmount, column].Value = cells[row, column].Value;
+                cells[row, column].Value = 0;
             }
         }
 
@@ -174,6 +175,19 @@
             return dropAmount;
         }
 
-
+        public IEnumerable<IGridComponent> GetChildren()
+        {
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int column = 0; column < Columns; column++)
+                {
+                    yield return cells[row, column];
+                }
+            }
+        }
+        public void Operation()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -125,7 +125,7 @@ namespace Pentotris
         {
             foreach (Point point in CurrentBlock.TilePosition())
             {
-                GameGrid[point] = CurrentBlock.Id;
+                GameGrid[point].Value = CurrentBlock.Id;
             }
 
             GameGrid.ClearRows();

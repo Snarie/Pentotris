@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Pentotris.Interfaces;
 using Pentotris.Shapes;
 using Grid = Pentotris.Grid;
 
@@ -73,9 +74,6 @@ namespace Pentotris
             new BitmapImage(new Uri("Sprites/Pentominos/Block-Z.png", UriKind.Relative)), //25
         };
 
-        // 2D array to hold the image controls for the grid
-        private readonly Image[,] imageControls;
-
         // Current state of the game
         private State gameState = new();
 
@@ -85,7 +83,7 @@ namespace Pentotris
         public MainWindow()
         {
             InitializeComponent();
-            imageControls = SetupGameCanvas(gameState.GameGrid);
+            SetupGameCanvas(gameState.GameGrid);
         }
 
         /// <summary>
@@ -93,30 +91,23 @@ namespace Pentotris
         /// </summary>
         /// <param name="grid">The game grid.</param>
         /// <returns>A 2D array of image controls.</returns>
-        private Image[,] SetupGameCanvas(Grid grid)
+        private void SetupGameCanvas(Grid grid)
         {
             Image[,] imageControls = new Image[grid.Rows, grid.Columns];
             int cellSize = 25;
-
-            for (int row = 0; row < grid.Rows; row++)
+            foreach(Cell cell in grid.GetChildren())
             {
-                for (int column = 0; column < grid.Columns; column++)
+                Image imageControl = new()
                 {
-                    Image imageControl = new()
-                    {
-                        Width = cellSize,
-                        Height = cellSize
-                    };
+                    Width = cellSize,
+                    Height = cellSize
+                };
 
-                    // Adjust the top position to account for invisible rows
-                    Canvas.SetTop(imageControl, (row - 2) * cellSize + 10);
-                    Canvas.SetLeft(imageControl, column * cellSize);
-                    GameCanvas.Children.Add(imageControl);
-                    imageControls[row, column] = imageControl;
-                }
+                Canvas.SetTop(imageControl, (cell.Row - 2) * cellSize + 10);
+                Canvas.SetLeft(imageControl, cell.Column * cellSize);
+                GameCanvas.Children.Add(imageControl);
+                cell.Icon = imageControl;
             }
-
-            return imageControls;
         }
 
         /// <summary>
@@ -125,14 +116,10 @@ namespace Pentotris
         /// <param name="grid">The game grid.</param>
         private void DrawGrid(Grid grid)
         {
-            for (int row = 0; row < grid.Rows; row++)
+            foreach (Cell cell in grid.GetChildren())
             {
-                for (int column = 0; column < grid.Columns; column++)
-                {
-                    int id = grid[row, column];
-                    ImageSource image = tileImages[id];
-                    imageControls[row, column].Source = image;
-                }
+                //imageControls[cell.Row, cell.Column].Source = tileImages[cell.Value];
+                cell.Icon.Source = tileImages[cell.Value];
             }
         }
 
@@ -150,11 +137,12 @@ namespace Pentotris
         /// Draws the current block on the game grid.
         /// </summary>
         /// <param name="block">The current block.</param>
-        private void DrawBlock(Block block)
+        private void DrawBlock(Block block, Grid grid)
         {
             foreach (Point point in block.TilePosition())
             {
-                imageControls[point.Row, point.Column].Source = tileImages[block.Id];
+                //imageControls[point.Row, point.Column].Source = tileImages[block.Id];
+                grid[point.Row, point.Column].Icon.Source = tileImages[block.Id];
             }
         }
 
@@ -165,7 +153,7 @@ namespace Pentotris
         private void Draw(State state)
         {
             DrawGrid(state.GameGrid);
-            DrawBlock(state.CurrentBlock);
+            DrawBlock(state.CurrentBlock, state.GameGrid);
             DrawNextBlock(state.BlockQueue);
         }
 
