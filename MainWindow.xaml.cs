@@ -60,6 +60,7 @@ namespace Pentotris
             state.DrawGrid();
             state.DrawBlock();
             state.DrawNextBlock(NextImage);
+            state.DrawHeldBlock(HoldImage); 
         }
 
         /// <summary>
@@ -114,6 +115,9 @@ namespace Pentotris
                     break;
                 case Key.Z:
                     gameState.RotateBlockCounterClockwise();
+                    break;
+                case Key.C:
+                    gameState.HoldBlock();
                     break;
                 default:
                     // Return to avoid unnecessary redraw

@@ -39,6 +39,15 @@ namespace Pentotris
         internal bool Finished { get; private set; }
 
         /// <summary>
+        /// Gets the block that is currently saved for later swapping.
+        /// </summary>
+        public Block HeldBlock { get; private set; }
+        /// <summary>
+        /// Gets a value indicating whether the block can be hold.
+        /// </summary>
+        public bool CanHold { get; private set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="State"/> class.
         /// </summary>
         public State(Canvas canvas)
@@ -46,8 +55,30 @@ namespace Pentotris
             GameGrid = new Grid(22, 10, canvas);
             BlockQueue = new Queue();
             CurrentBlock = BlockQueue.GetAndUpdate();
+            CanHold = true;
         }
 
+        public void HoldBlock()
+        {
+            if (!CanHold)
+            {
+                return;
+            }
+            
+            if (HeldBlock == null)
+            {
+                HeldBlock = CurrentBlock;
+                CurrentBlock = BlockQueue.GetAndUpdate();
+            }
+            else
+            {
+                Block block = CurrentBlock;
+                CurrentBlock = HeldBlock;
+                HeldBlock = block;
+            }
+
+            CanHold = false;
+        }
         /// <summary>
         /// Checks if the current block fits in the grid.
         /// </summary>
@@ -138,6 +169,7 @@ namespace Pentotris
             else
             {
                 CurrentBlock = BlockQueue.GetAndUpdate();
+                CanHold = true;
             }
         }
 
@@ -180,6 +212,18 @@ namespace Pentotris
         {
             Block next = BlockQueue.NextBlock;
             image.Source = GameResources.blockImages[next.Id];
+        }
+        public void DrawHeldBlock(Image image)
+        {
+            if (HeldBlock == null)
+            {
+                image.Source = GameResources.blockImages[0];
+            }
+            else
+            {
+                Block held = HeldBlock;
+                image.Source = GameResources.blockImages[held.Id];
+            }
         }
     }
 }
