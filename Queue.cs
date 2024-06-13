@@ -1,6 +1,8 @@
 ﻿using Pentotris.Shapes.Tetromino;
 using Pentotris.Shapes;
 using Pentotris.Shapes.Pentomino;
+using Pentotris.Interfaces;
+using Pentotris.Factories;
 
 namespace Pentotris
 {
@@ -9,6 +11,9 @@ namespace Pentotris
     /// </summary>
     internal class Queue
     {
+        private readonly IBlockFactory tetrominoFactory = new TetrominoFactory();
+        private readonly IBlockFactory pentominoFactory = new PentominoFactory();
+
         /// <summary>
         /// The array of possible tetromino and pentomino blocks.
         /// </summary>
@@ -65,21 +70,15 @@ namespace Pentotris
         /// <returns>A random <see cref="Block"/>.</returns>
         private Block RandomBlock()
         {
-            // Generate random between 0 and 2
-            int randomNumber = random.Next(3);
-
-            // 66% chance to select a tetromino
-            if ( randomNumber < 2)
+            // 66% chance to select a tetromino, 33% chance to select a pentomino
+            if (random.Next(3) < 2)
             {
-                // Select from tetrominos (first 7 elements)
-                return blocks[random.Next(7)];
+                return tetrominoFactory.CreateBlock();
             }
             else
             {
-                // Select from pentominos (remaining 18 elements)
-                return blocks[7 + random.Next(12)];
+                return pentominoFactory.CreateBlock();
             }
-            //return tetrominos[random.Next(tetrominos.Length)];
         }
 
         /// <summary>

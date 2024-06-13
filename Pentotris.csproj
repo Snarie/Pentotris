@@ -58,13 +58,13 @@
   <ItemGroup>
     <Resource Include="Sprites\Background.png" />
     <Resource Include="Sprites\Block-Empty.png" />
-    <Resource Include="Sprites\Block-I.png" />
-    <Resource Include="Sprites\Block-J.png" />
-    <Resource Include="Sprites\Block-L.png" />
-    <Resource Include="Sprites\Block-O.png" />
-    <Resource Include="Sprites\Block-S.png" />
-    <Resource Include="Sprites\Block-T.png" />
-    <Resource Include="Sprites\Block-Z.png" />
+    <Resource Include="Sprites\Tetrominos\Block-I.png" />
+    <Resource Include="Sprites\Tetrominos\Block-J.png" />
+    <Resource Include="Sprites\Tetrominos\Block-L.png" />
+    <Resource Include="Sprites\Tetrominos\Block-O.png" />
+    <Resource Include="Sprites\Tetrominos\Block-S.png" />
+    <Resource Include="Sprites\Tetrominos\Block-T.png" />
+    <Resource Include="Sprites\Tetrominos\Block-Z.png" />
     <Resource Include="Sprites\Pentominos\Block-F.png" />
     <Resource Include="Sprites\Pentominos\Block-G.png" />
     <Resource Include="Sprites\Pentominos\Block-H.png" />
@@ -92,14 +92,14 @@
     <Resource Include="Sprites\PentoTiles\Purple.png" />
     <Resource Include="Sprites\PentoTiles\Red.png" />
     <Resource Include="Sprites\PentoTiles\Yellow.png" />
-    <Resource Include="Sprites\TileBlue.png" />
-    <Resource Include="Sprites\TileCyan.png" />
+    <Resource Include="Sprites\TetroTiles\Blue.png" />
+    <Resource Include="Sprites\TetroTiles\Cyan.png" />
     <Resource Include="Sprites\TileEmpty.png" />
-    <Resource Include="Sprites\TileGreen.png" />
-    <Resource Include="Sprites\TileOrange.png" />
-    <Resource Include="Sprites\TilePurple.png" />
-    <Resource Include="Sprites\TileRed.png" />
-    <Resource Include="Sprites\TileYellow.png" />
+    <Resource Include="Sprites\TetroTiles\Green.png" />
+    <Resource Include="Sprites\TetroTiles\Orange.png" />
+    <Resource Include="Sprites\TetroTiles\Purple.png" />
+    <Resource Include="Sprites\TetroTiles\Red.png" />
+    <Resource Include="Sprites\TetroTiles\Yellow.png" />
   </ItemGroup>
 
 </Project>

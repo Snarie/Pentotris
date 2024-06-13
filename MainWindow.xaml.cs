@@ -17,13 +17,13 @@ namespace Pentotris
         private readonly ImageSource[] tileImages = new ImageSource[]
         {
             new BitmapImage(new Uri("Sprites/TileEmpty.png", UriKind.Relative)), //0
-            new BitmapImage(new Uri("Sprites/TileCyan.png", UriKind.Relative)), //1
-            new BitmapImage(new Uri("Sprites/TileBLue.png", UriKind.Relative)), //2
-            new BitmapImage(new Uri("Sprites/TileOrange.png", UriKind.Relative)), //3
-            new BitmapImage(new Uri("Sprites/TileYellow.png", UriKind.Relative)), //4
-            new BitmapImage(new Uri("Sprites/TileGreen.png", UriKind.Relative)), //5
-            new BitmapImage(new Uri("Sprites/TilePurple.png", UriKind.Relative)), //6
-            new BitmapImage(new Uri("Sprites/TileRed.png", UriKind.Relative)), //7
+            new BitmapImage(new Uri("Sprites/TetroTiles/Cyan.png", UriKind.Relative)), //1
+            new BitmapImage(new Uri("Sprites/TetroTiles/BLue.png", UriKind.Relative)), //2
+            new BitmapImage(new Uri("Sprites/TetroTiles/Orange.png", UriKind.Relative)), //3
+            new BitmapImage(new Uri("Sprites/TetroTiles/Yellow.png", UriKind.Relative)), //4
+            new BitmapImage(new Uri("Sprites/TetroTiles/Green.png", UriKind.Relative)), //5
+            new BitmapImage(new Uri("Sprites/TetroTiles/Purple.png", UriKind.Relative)), //6
+            new BitmapImage(new Uri("Sprites/TetroTiles/Red.png", UriKind.Relative)), //7
             new BitmapImage(new Uri("Sprites/PentoTiles/Red.png", UriKind.Relative)), //8
             new BitmapImage(new Uri("Sprites/PentoTiles/Red.png", UriKind.Relative)), //9
             new BitmapImage(new Uri("Sprites/PentoTiles/Yellow.png", UriKind.Relative)), //10
@@ -46,13 +46,13 @@ namespace Pentotris
         private readonly ImageSource[] blockImages = new ImageSource[]
         {
             new BitmapImage(new Uri("Sprites/Block-Empty.png", UriKind.Relative)), //0
-            new BitmapImage(new Uri("Sprites/Block-I.png", UriKind.Relative)), //1
-            new BitmapImage(new Uri("Sprites/Block-J.png", UriKind.Relative)), //2
-            new BitmapImage(new Uri("Sprites/Block-L.png", UriKind.Relative)), //3
-            new BitmapImage(new Uri("Sprites/Block-O.png", UriKind.Relative)), //4
-            new BitmapImage(new Uri("Sprites/Block-S.png", UriKind.Relative)), //5
-            new BitmapImage(new Uri("Sprites/Block-T.png", UriKind.Relative)), //6
-            new BitmapImage(new Uri("Sprites/Block-Z.png", UriKind.Relative)), //7
+            new BitmapImage(new Uri("Sprites/Tetrominos/Block-I.png", UriKind.Relative)), //1
+            new BitmapImage(new Uri("Sprites/Tetrominos/Block-J.png", UriKind.Relative)), //2
+            new BitmapImage(new Uri("Sprites/Tetrominos/Block-L.png", UriKind.Relative)), //3
+            new BitmapImage(new Uri("Sprites/Tetrominos/Block-O.png", UriKind.Relative)), //4
+            new BitmapImage(new Uri("Sprites/Tetrominos/Block-S.png", UriKind.Relative)), //5
+            new BitmapImage(new Uri("Sprites/Tetrominos/Block-T.png", UriKind.Relative)), //6
+            new BitmapImage(new Uri("Sprites/Tetrominos/Block-Z.png", UriKind.Relative)), //7
             new BitmapImage(new Uri("Sprites/Pentominos/Block-F.png", UriKind.Relative)), //8
             new BitmapImage(new Uri("Sprites/Pentominos/Block-G.png", UriKind.Relative)), //9
             new BitmapImage(new Uri("Sprites/Pentominos/Block-H.png", UriKind.Relative)), //10
