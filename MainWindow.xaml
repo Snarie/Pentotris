@@ -9,7 +9,7 @@
         MinWidth="600" MinHeight="600"
         Foreground="White"
         FontSize="28"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

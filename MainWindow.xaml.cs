@@ -5,7 +5,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Pentotris.Interfaces;
 using Pentotris.Shapes;
-using Grid = Pentotris.Grid;
 
 namespace Pentotris
 {
@@ -19,6 +18,7 @@ namespace Pentotris
         // Current state of the game
         private State gameState;
         private ScoreBoard scoreBoard;
+        private readonly ThreadManager threadpool;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -27,13 +27,17 @@ namespace Pentotris
         {
             InitializeComponent();
             gameState = new(GameCanvas);
-            scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid);
+            threadpool = new ThreadManager(4);
+            scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid, threadpool);
             scoreBoard.Attach(this);
         }
 
         public void UpdateScore(int score)
         {
-            ScoreText.Text = $"Score: {score}";
+            Dispatcher.Invoke(() =>
+            {
+                ScoreText.Text = $"Score: {score}";
+            });
         }
 
         /// <summary>
@@ -54,16 +58,26 @@ namespace Pentotris
         {
             Draw(gameState);
 
-            while (!gameState.Finished)
+            threadpool.QueueTask(async () =>
             {
-                await Task.Delay(500);
-                gameState.MoveBlockDown();
-                Draw(gameState);
-            }
+                while (!gameState.Finished)
+                {
+                    await Task.Delay(500);
+                    gameState.MoveBlockDown();
+                    Dispatcher.Invoke(() =>
+                    {
+                        Draw(gameState);
+                    });
+                }
 
-            GameOver.Visibility = Visibility.Visible;
-            FinalScoreText.Text = $"Score: {scoreBoard.Score}";
-            ScoreText.Text = "Score: 0";
+                Dispatcher.Invoke(() =>
+                {
+                    GameOver.Visibility = Visibility.Visible;
+                    FinalScoreText.Text = $"Score: {scoreBoard.Score}";
+                    ScoreText.Text = "Score: 0";
+                });
+            });
+            
         }
 
         /// <summary>
@@ -109,7 +123,7 @@ namespace Pentotris
             scoreBoard.Detach(this);
             gameState.GameGrid.Remove();
             gameState = new(GameCanvas);
-            scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid);
+            scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid, threadpool);
             scoreBoard.Attach(this);
             GameOver.Visibility = Visibility.Hidden;
             await Loop();
@@ -123,5 +137,9 @@ namespace Pentotris
             await Loop();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            threadpool.Dispose();
+        }
     }
 }
