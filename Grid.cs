@@ -1,4 +1,7 @@
 ﻿using Pentotris.Interfaces;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Pentotris
 {
@@ -7,6 +10,11 @@ namespace Pentotris
     /// </summary>
     internal class Grid : IGridComponent
     {
+        /// <summary>
+        /// The canvas on which all the cells are located
+        /// </summary>
+        private readonly Canvas gameCanvas;
+
         /// <summary>
         /// The 2D array representing the grid.
         /// </summary>
@@ -50,20 +58,15 @@ namespace Pentotris
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        public Grid(int rows, int columns)
+        public Grid(int rows, int columns, Canvas canvas)
         {
+            gameCanvas = canvas;
             Rows = rows;
             Columns = columns;
             //grid = new int[rows, columns];
             cells = new Cell[rows, columns];
 
-            for (int row = 0; row < rows; row++)
-            {
-                for (int column = 0; column < columns; column++)
-                {
-                    cells[row, column] = new Cell(row, column);
-                }
-            }
+            Operation();
         }
 
         /// <summary>
@@ -175,6 +178,25 @@ namespace Pentotris
             return dropAmount;
         }
 
+        public void Add(Cell cell)
+        {
+            int cellSize = 25;
+            Image imageControl = new()
+            {
+                Width = cellSize,
+                Height = cellSize
+            };
+            Canvas.SetTop(imageControl, (cell.Row - 2) * cellSize + 10);
+            Canvas.SetLeft(imageControl, cell.Column * cellSize);
+            gameCanvas.Children.Add(imageControl);
+            cell.Icon = imageControl;
+            cells[cell.Row, cell.Column] = cell;
+        }
+        public void Remove()
+        {
+            gameCanvas.Children.Clear();
+        }
+
         public IEnumerable<IGridComponent> GetChildren()
         {
             for (int row = 0; row < Rows; row++)
@@ -185,9 +207,22 @@ namespace Pentotris
                 }
             }
         }
-        public void Operation()
+        public void Operation(int value = 0)
         {
-            throw new NotImplementedException();
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int column = 0; column < Columns; column++)
+                {
+                    Add(new Cell(row, column));
+                }
+            }
+        }
+        public void Draw()
+        {
+            foreach (Cell cell in GetChildren().Cast<Cell>())
+            {
+                cell.Draw();
+            }
         }
     }
 }

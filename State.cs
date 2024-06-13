@@ -1,4 +1,5 @@
 ﻿using Pentotris.Shapes;
+using System.Windows.Controls;
 
 namespace Pentotris
 {
@@ -40,9 +41,9 @@ namespace Pentotris
         /// <summary>
         /// Initializes a new instance of the <see cref="State"/> class.
         /// </summary>
-        public State()
+        public State(Canvas canvas)
         {
-            GameGrid = new Grid(22, 10);
+            GameGrid = new Grid(22, 10, canvas);
             BlockQueue = new Queue();
             CurrentBlock = BlockQueue.GetAndUpdate();
         }

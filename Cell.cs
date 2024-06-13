@@ -1,5 +1,6 @@
 ﻿using Pentotris.Interfaces;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Pentotris
 {
@@ -19,24 +20,17 @@ namespace Pentotris
             Column = column;
             Value = 0;
         }
-        public void Add(IGridComponent component)
-        {
-            throw new NotImplementedException();
-        }
-        public void Remove(IGridComponent component)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<IGridComponent> GetChildren()
         {
             throw new NotImplementedException();
         }
-
-        public void Operation()
+        public void Operation(int value)
         {
-            throw new NotImplementedException();
+            Icon.Source = GameResources.tileImages[value];
         }
-
+        public void Draw()
+        {
+            Icon.Source = GameResources.tileImages[Value];
+        }
     }
 }

@@ -1,10 +1,15 @@
-﻿namespace Pentotris.Interfaces
+﻿using System.Windows.Media;
+
+namespace Pentotris.Interfaces
 {
     internal interface IGridComponent
     {
-        //void Add(IGridComponent component);
-        //void Remove(IGridComponent component);
+        /// <summary>
+        /// Gives a list of all children of this class
+        /// </summary>
+        /// <returns>The <see cref="IGridComponent"/> that are children of this <see cref="IGridComponent"/></returns>
         IEnumerable<IGridComponent> GetChildren();
-        void Operation();
+        void Operation(int value);
+        void Draw();
     }
 }
