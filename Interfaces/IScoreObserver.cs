@@ -2,6 +2,6 @@
 {
     internal interface IScoreObserver
     {
-        void UpdateScore(int clearedRows);
+        void UpdateScore(int score);
     }
 }

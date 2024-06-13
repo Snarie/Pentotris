@@ -11,14 +11,17 @@ namespace Pentotris
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IScoreObserver
+    public partial class MainWindow : Window, IScoreObserver, ILevelObserver
     {
 
 
         // Current state of the game
         private State gameState;
         private ScoreBoard scoreBoard;
+        private DifficultyManager difficultyManager;
         private readonly ThreadManager threadpool;
+
+        private int DelayDuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -30,14 +33,22 @@ namespace Pentotris
             threadpool = new ThreadManager(4);
             scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid, threadpool);
             scoreBoard.Attach(this);
+            difficultyManager = new DifficultyManager(gameState.GameGrid);
+            difficultyManager.Attach(gameState.BlockQueue);
+            difficultyManager.Attach(this);
+            DelayDuration = 500;
         }
 
         public void UpdateScore(int score)
         {
             Dispatcher.Invoke(() =>
             {
-                ScoreText.Text = $"Score: {score}";
+                ScoreText.Text = $"{difficultyManager.Level} Score: {score}";
             });
+        }
+        public void LevelUpdate(int level)
+        {
+            DelayDuration = Math.Max(100, 500 - (20 * level));
         }
 
         /// <summary>
@@ -62,12 +73,9 @@ namespace Pentotris
             {
                 while (!gameState.Finished)
                 {
-                    await Task.Delay(500);
+                    await Task.Delay(DelayDuration);
                     gameState.MoveBlockDown();
-                    Dispatcher.Invoke(() =>
-                    {
-                        Draw(gameState);
-                    });
+                    Dispatcher.Invoke(() => Draw(gameState));
                 }
 
                 Dispatcher.Invoke(() =>
@@ -125,6 +133,10 @@ namespace Pentotris
             gameState = new(GameCanvas);
             scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid, threadpool);
             scoreBoard.Attach(this);
+            difficultyManager = new DifficultyManager(gameState.GameGrid);
+            difficultyManager.Attach(gameState.BlockQueue);
+            difficultyManager.Attach(this);
+            DelayDuration = 500;
             GameOver.Visibility = Visibility.Hidden;
             await Loop();
         }

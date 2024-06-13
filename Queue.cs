@@ -9,42 +9,13 @@ namespace Pentotris
     /// <summary>
     /// Manages the queue of upcoming blocks in the game.
     /// </summary>
-    internal class Queue
+    internal class Queue : ILevelObserver
     {
         private readonly IBlockFactory tetrominoFactory = new TetrominoFactory();
         private readonly IBlockFactory pentominoFactory = new PentominoFactory();
 
-        /// <summary>
-        /// The array of possible tetromino and pentomino blocks.
-        /// </summary>
-        private readonly Block[] blocks = new Block[]
-        {
-            new ITetromino(), //1
-            new JTetromino(), //2
-            new LTetromino(), //3
-            new OTetromino(), //4
-            new STetromino(), //5
-            new TTetromino(), //6
-            new ZTetromino(), //7
-            new FPentomino(), //8
-            new GPentomino(), //9
-            new HPentomino(), //10
-            new IPentomino(), //11
-            new JPentomino(), //12
-            new LPentomino(), //13
-            new NPentomino(), //14
-            new PPentomino(), //15
-            new QPentomino(), //16
-            new RPentomino(), //17
-            new SPentomino(), //18
-            new TPentomino(), //19
-            new UPentomino(), //20
-            new VPentomino(), //21
-            new WPentomino(), //22
-            new XPentomino(), //23
-            new YPentomino(), //24
-            new ZPentomino()  //25
-        };
+
+        private int pentominoWeight;
 
         /// <summary>
         /// Random number generator for selecting the next block.
@@ -62,6 +33,7 @@ namespace Pentotris
         internal Queue()
         {
             NextBlock = RandomBlock();
+            pentominoWeight = 10;
         }
 
         /// <summary>
@@ -70,14 +42,14 @@ namespace Pentotris
         /// <returns>A random <see cref="Block"/>.</returns>
         private Block RandomBlock()
         {
-            // 66% chance to select a tetromino, 33% chance to select a pentomino
-            if (random.Next(3) < 2)
+            // 
+            if (random.Next(100) < pentominoWeight)
             {
-                return tetrominoFactory.CreateBlock();
+                return pentominoFactory.CreateBlock();
             }
             else
             {
-                return pentominoFactory.CreateBlock();
+                return tetrominoFactory.CreateBlock();
             }
         }
 
@@ -97,6 +69,13 @@ namespace Pentotris
             while (block.Id == NextBlock.Id);
 
             return block;
+        }
+
+        public void LevelUpdate(int level)
+        {
+            // When Weight becomes 100+ it will always spawn a pentomino
+            pentominoWeight = level * 3 + 10;
+
         }
     }
 }
