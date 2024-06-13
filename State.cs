@@ -186,6 +186,35 @@ namespace Pentotris
             }
         }
 
+        private int TileDropDistance(Point point)
+        {
+            int drop = 0;
+
+            while (GameGrid.Empty(point.Row + drop + 1, point.Column))
+            {
+                drop++;
+            }
+            return drop;
+        }
+
+        public int BlockDropDistance()
+        {
+            int drop = GameGrid.Rows;
+             
+            foreach (Point point in CurrentBlock.TilePosition())
+            {
+                drop = Math.Min(drop, TileDropDistance(point));
+            }
+
+            return drop;
+        }
+
+        public void DropBlock()
+        {
+            CurrentBlock.Move(BlockDropDistance(), 0);
+            PlaceBlock();
+        }
+
         /// <summary>
         /// Draw the grid of blocks on the game grid
         /// </summary>
