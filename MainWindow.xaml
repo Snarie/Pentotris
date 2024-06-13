@@ -53,7 +53,7 @@
         <Grid x:Name="GameOver" Background="#CC000000" Grid.RowSpan="2" Grid.ColumnSpan="3" Visibility="Hidden">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Game Over" FontSize="50" TextAlignment="Center"/>
-                <TextBlock Text="FinalScoreText" FontSize="30" TextAlignment="Center"/>
+                <TextBlock x:Name="FinalScoreText" Text="" FontSize="30" TextAlignment="Center"/>
                 <Button Content="Start Over" Background="LightGray" Margin="0,20,0,0" Padding="5" Click="Button_Click"/>
             </StackPanel>
 

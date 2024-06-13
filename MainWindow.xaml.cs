@@ -12,12 +12,13 @@ namespace Pentotris
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IScoreObserver
     {
 
 
         // Current state of the game
         private State gameState;
+        private ScoreBoard scoreBoard;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -26,37 +27,13 @@ namespace Pentotris
         {
             InitializeComponent();
             gameState = new(GameCanvas);
+            scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid);
+            scoreBoard.Attach(this);
         }
 
-        /// <summary>
-        /// Draws the game grid.
-        /// </summary>
-        /// <param name="grid">The game grid.</param>
-        private void DrawGrid(Grid grid)
+        public void UpdateScore(int score)
         {
-            grid.Draw();
-        }
-
-        /// <summary>
-        /// Draws the next block in the block queue.
-        /// </summary>
-        /// <param name="blockQueue">The block queue.</param>
-        private void DrawNextBlock(Queue blockQueue)
-        {
-            Block next = blockQueue.NextBlock;
-            NextImage.Source = GameResources.blockImages[next.Id];
-        }
-
-        /// <summary>
-        /// Draws the current block on the game grid.
-        /// </summary>
-        /// <param name="block">The current block.</param>
-        private void DrawBlock(Block block, Grid grid)
-        {
-            foreach (Point point in block.TilePosition())
-            {
-                grid[point.Row, point.Column].Operation(block.Id);
-            }
+            ScoreText.Text = $"Score: {score}";
         }
 
         /// <summary>
@@ -65,9 +42,9 @@ namespace Pentotris
         /// <param name="state">The game state.</param>
         private void Draw(State state)
         {
-            DrawGrid(state.GameGrid);
-            DrawBlock(state.CurrentBlock, state.GameGrid);
-            DrawNextBlock(state.BlockQueue);
+            state.DrawGrid();
+            state.DrawBlock();
+            state.DrawNextBlock(NextImage);
         }
 
         /// <summary>
@@ -85,6 +62,8 @@ namespace Pentotris
             }
 
             GameOver.Visibility = Visibility.Visible;
+            FinalScoreText.Text = $"Score: {scoreBoard.Score}";
+            ScoreText.Text = "Score: 0";
         }
 
         /// <summary>
@@ -127,9 +106,11 @@ namespace Pentotris
         /// </summary>
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            scoreBoard.Detach(this);
             gameState.GameGrid.Remove();
-            gameState = new State(GameCanvas);
-            //SetupGameCanvas(gameState.GameGrid);
+            gameState = new(GameCanvas);
+            scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid);
+            scoreBoard.Attach(this);
             GameOver.Visibility = Visibility.Hidden;
             await Loop();
         }

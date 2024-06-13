@@ -8,12 +8,17 @@ namespace Pentotris
     /// <summary>
     /// Represents the grid of the Tetris game.
     /// </summary>
-    internal class Grid : IGridComponent
+    internal class Grid : IGridComponent, IClearSubject
     {
         /// <summary>
         /// The canvas on which all the cells are located
         /// </summary>
         private readonly Canvas gameCanvas;
+
+        /// <summary>
+        /// List of classes that are observing upcoming row changes
+        /// </summary>
+        private readonly List<IClearObserver> clearObservers = new List<IClearObserver>();
 
         /// <summary>
         /// The 2D array representing the grid.
@@ -175,6 +180,11 @@ namespace Pentotris
                     MoveRow(row, dropAmount);
                 }
             }
+
+            if (dropAmount > 0)
+            {
+                Notify(dropAmount);
+            }
             return dropAmount;
         }
 
@@ -222,6 +232,22 @@ namespace Pentotris
             foreach (Cell cell in GetChildren().Cast<Cell>())
             {
                 cell.Draw();
+            }
+        }
+
+        public void Attach(IClearObserver observer)
+        {
+            clearObservers.Add(observer);
+        }
+        public void Detach(IClearObserver observer)
+        {
+            clearObservers.Remove(observer);
+        }
+        public void Notify(int clearedRows)
+        {
+            foreach (var observer in clearObservers)
+            {
+                observer.Update(clearedRows);
             }
         }
     }

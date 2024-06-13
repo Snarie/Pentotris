@@ -153,5 +153,33 @@ namespace Pentotris
                 PlaceBlock();
             }
         }
+
+        /// <summary>
+        /// Draw the grid of blocks on the game grid
+        /// </summary>
+        public void DrawGrid()
+        {
+            GameGrid.Draw();
+        }
+
+        /// <summary>
+        /// Draws the current block on the game grid.
+        /// </summary>
+        public void DrawBlock()
+        {
+            foreach (Point point in CurrentBlock.TilePosition())
+            {
+                GameGrid[point.Row, point.Column].Operation(CurrentBlock.Id);
+            }
+        }
+        /// <summary>
+        /// Draws the next block in the block queue.
+        /// </summary>
+        /// <param name="image">The <see cref="Image"/> which holds the next block.</param>
+        public void DrawNextBlock(Image image)
+        {
+            Block next = BlockQueue.NextBlock;
+            image.Source = GameResources.blockImages[next.Id];
+        }
     }
 }
