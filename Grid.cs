@@ -21,11 +21,6 @@ namespace Pentotris
         private readonly List<IClearObserver> clearObservers = new();
 
         /// <summary>
-        /// List of classes that are observering bounce with walls
-        /// </summary>
-        private readonly List<IBounceObserver> bounceObservers = new();
-
-        /// <summary>
         /// The 2D array representing the grid.
         /// </summary>
         private readonly Cell[,] cells;
