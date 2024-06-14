@@ -45,15 +45,17 @@ namespace Pentotris
         /// <returns>A random <see cref="Block"/>.</returns>
         private Block RandomBlock()
         {
+            IBlockFactory blockFactory;
             // 
             if (random.Next(100) < pentominoWeight)
             {
-                return pentominoFactory.CreateBlock();
+                blockFactory = pentominoFactory;
             }
             else
             {
-                return tetrominoFactory.CreateBlock();
+                blockFactory = tetrominoFactory;
             }
+            return blockFactory.CreateBlock();
         }
 
         /// <summary>
