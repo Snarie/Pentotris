@@ -149,6 +149,7 @@ namespace Pentotris
             difficultyManager = new DifficultyManager(gameState.GameGrid);
             difficultyManager.Attach(gameState.BlockQueue);
             difficultyManager.Attach(this);
+            soundManager = new SoundManager(gameState.GameGrid, gameState, threadpool);
             DelayDuration = 500;
             GameOver.Visibility = Visibility.Hidden;
             await Loop();
