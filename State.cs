@@ -1,14 +1,22 @@
-﻿using Pentotris.Shapes;
+﻿using Pentotris.Interfaces;
+using Pentotris.Shapes;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Pentotris
 {
     /// <summary>
     /// Represents the current state of the game.
     /// </summary>
-    internal class State
+    internal class State : IBounceSubject, IRotateSubject, IHardDropSubject, ISoftDropSubject, IMoveSubject
     {
         private Block currentBlock;
+
+        private readonly List<IRotateObserver> rotateObservers = new();
+        private readonly List<IBounceObserver> bounceObservers = new();
+        private readonly List<IHardDropObserver> hardDropObservers = new();
+        private readonly List<ISoftDropObserver> softDropObservers = new();
+        private readonly List<IMoveObserver> moveObservers = new();
 
         /// <summary>
         /// Gets or sets the current block. Resets the block position upon setting.
@@ -50,10 +58,10 @@ namespace Pentotris
         /// <summary>
         /// Initializes a new instance of the <see cref="State"/> class.
         /// </summary>
-        public State(Canvas canvas)
+        public State(Canvas canvas, ThreadManager threadpool)
         {
             GameGrid = new Grid(22, 10, canvas);
-            BlockQueue = new Queue();
+            BlockQueue = new Queue(threadpool);
             CurrentBlock = BlockQueue.GetAndUpdate();
             CanHold = true;
         }
@@ -99,6 +107,10 @@ namespace Pentotris
             {
                 CurrentBlock.RotateCounterClockwise();
             }
+            else
+            {
+                RotateNotify();
+            }
         }
 
         /// <summary>
@@ -112,6 +124,10 @@ namespace Pentotris
             {
                 CurrentBlock.RotateClockwise();
             }
+            else
+            {
+                RotateNotify();
+            }
         }
 
         /// <summary>
@@ -123,7 +139,12 @@ namespace Pentotris
 
             if (!BlockFits())
             {
+                BounceNotify();
                 CurrentBlock.Move(0, 1);
+            }
+            else
+            {
+                MoveNotify();
             }
         }
 
@@ -136,7 +157,12 @@ namespace Pentotris
 
             if (!BlockFits())
             {
+                BounceNotify();
                 CurrentBlock.Move(0, -1);
+            }
+            else
+            {
+                MoveNotify();
             }
         }
 
@@ -184,6 +210,10 @@ namespace Pentotris
                 CurrentBlock.Move(-1, 0);
                 PlaceBlock();
             }
+            else
+            {
+                SoftDropNotify();
+            }
         }
 
         private int TileDropDistance(Point point)
@@ -213,6 +243,7 @@ namespace Pentotris
         {
             CurrentBlock.Move(BlockDropDistance(), 0);
             PlaceBlock();
+            HardDropNotify();
         }
 
         /// <summary>
@@ -235,6 +266,7 @@ namespace Pentotris
                 GameGrid[point.Row + dropDistance, point.Column].Icon.Opacity = 0.25;
                 GameGrid[point.Row + dropDistance, point.Column].Icon.Source = GameResources.tileImages[CurrentBlock.Id];
             }
+            
         }
         /// <summary>
         /// Draws the current block on the game grid.
@@ -265,6 +297,96 @@ namespace Pentotris
             {
                 Block held = HeldBlock;
                 image.Source = GameResources.blockImages[held.Id];
+            }
+        }
+
+        public void AttachBounceObserver(IBounceObserver observer)
+        {
+            bounceObservers.Add(observer);
+        }
+
+        public void DetachBounceObserver(IBounceObserver observer)
+        {
+            bounceObservers.Remove(observer);
+        }
+
+        public void BounceNotify()
+        {
+            foreach (var observer in bounceObservers)
+            {
+                observer.BounceUpdate();
+            }
+        }
+
+        
+
+        public void AttachRotateObserver(IRotateObserver observer)
+        {
+            rotateObservers.Add(observer);
+        }
+
+        public void DetachRotateObserver(IRotateObserver observer)
+        {
+            rotateObservers.Remove(observer);
+        }
+
+        public void RotateNotify()
+        {
+            foreach (var observer in rotateObservers)
+            {
+                observer.RotateUpdate();
+            }
+        }
+
+        public void AttachHardDropObserver(IHardDropObserver observer)
+        {
+            hardDropObservers.Add(observer);
+        }
+
+        public void DetachHardDropObserver(IHardDropObserver observer)
+        {
+            hardDropObservers.Remove(observer);
+        }
+
+        public void HardDropNotify()
+        {
+            foreach (var observer in hardDropObservers)
+            {
+                observer.HardDropUpdate();
+            }
+        }
+
+        public void AttachSoftDropObserver(ISoftDropObserver observer)
+        {
+            softDropObservers.Add(observer);
+        }
+        public void DetachSoftropObserver(ISoftDropObserver observer)
+        {
+            softDropObservers.Remove(observer);
+        }
+        public void SoftDropNotify()
+        {
+            foreach (var observer in softDropObservers)
+            {
+                observer.SoftDropUpdate();
+            }
+        }
+
+        public void AttachMoveObserver(IMoveObserver observer)
+        {
+            moveObservers.Add(observer);
+        }
+
+        public void DetachMoveObserver(IMoveObserver observer)
+        {
+            moveObservers.Remove(observer);
+        }
+
+        public void MoveNotify()
+        {
+            foreach (var observer in moveObservers)
+            {
+                observer.MoveUpdate();
             }
         }
     }

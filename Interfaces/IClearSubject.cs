@@ -2,8 +2,8 @@
 {
     internal interface IClearSubject
     {
-        void Attach(IClearObserver observer);
-        void Detach(IClearObserver observer);
-        void Notify(int dropAmount);
+        void AttachClearObserver(IClearObserver observer);
+        void DetachClearObserver(IClearObserver observer);
+        void ClearNotify(int dropAmount);
     }
 }

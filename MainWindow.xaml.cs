@@ -19,6 +19,7 @@ namespace Pentotris
         private State gameState;
         private ScoreBoard scoreBoard;
         private DifficultyManager difficultyManager;
+        private SoundManager soundManager;
         private readonly ThreadManager threadpool;
 
         private int DelayDuration;
@@ -29,13 +30,16 @@ namespace Pentotris
         public MainWindow()
         {
             InitializeComponent();
-            gameState = new(GameCanvas);
-            threadpool = new ThreadManager(4);
+            threadpool = new ThreadManager(10);
+            gameState = new(GameCanvas, threadpool);
             scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid, threadpool);
             scoreBoard.Attach(this);
             difficultyManager = new DifficultyManager(gameState.GameGrid);
             difficultyManager.Attach(gameState.BlockQueue);
             difficultyManager.Attach(this);
+            soundManager = new SoundManager(gameState.GameGrid, gameState, threadpool);
+
+
             DelayDuration = 500;
         }
 
@@ -139,7 +143,7 @@ namespace Pentotris
         {
             scoreBoard.Detach(this);
             gameState.GameGrid.Remove();
-            gameState = new(GameCanvas);
+            gameState = new(GameCanvas, threadpool);
             scoreBoard = new ScoreBoard("Scoreboard", gameState.GameGrid, threadpool);
             scoreBoard.Attach(this);
             difficultyManager = new DifficultyManager(gameState.GameGrid);

@@ -18,7 +18,12 @@ namespace Pentotris
         /// <summary>
         /// List of classes that are observing upcoming row changes
         /// </summary>
-        private readonly List<IClearObserver> clearObservers = new List<IClearObserver>();
+        private readonly List<IClearObserver> clearObservers = new();
+
+        /// <summary>
+        /// List of classes that are observering bounce with walls
+        /// </summary>
+        private readonly List<IBounceObserver> bounceObservers = new();
 
         /// <summary>
         /// The 2D array representing the grid.
@@ -183,7 +188,7 @@ namespace Pentotris
 
             if (dropAmount > 0)
             {
-                Notify(dropAmount);
+                ClearNotify(dropAmount);
             }
             return dropAmount;
         }
@@ -234,16 +239,16 @@ namespace Pentotris
                 cell.Draw();
             }
         }
-
-        public void Attach(IClearObserver observer)
+        
+        public void AttachClearObserver(IClearObserver observer)
         {
             clearObservers.Add(observer);
         }
-        public void Detach(IClearObserver observer)
+        public void DetachClearObserver(IClearObserver observer)
         {
             clearObservers.Remove(observer);
         }
-        public void Notify(int clearedRows)
+        public void ClearNotify(int clearedRows)
         {
             foreach (var observer in clearObservers)
             {

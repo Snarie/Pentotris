@@ -11,6 +11,8 @@ namespace Pentotris
     /// </summary>
     internal class Queue : ILevelObserver
     {
+
+        private readonly ThreadManager threadpool;
         private readonly IBlockFactory tetrominoFactory = new TetrominoFactory();
         private readonly IBlockFactory pentominoFactory = new PentominoFactory();
 
@@ -30,8 +32,9 @@ namespace Pentotris
         /// <summary>
         /// Initializes a new instance of the <see cref="Queue"/> class.
         /// </summary>
-        internal Queue()
+        internal Queue(ThreadManager threadpool)
         {
+            this.threadpool = threadpool;
             NextBlock = RandomBlock();
             pentominoWeight = 10;
         }
@@ -73,8 +76,11 @@ namespace Pentotris
 
         public void LevelUpdate(int level)
         {
-            // When Weight becomes 100+ it will always spawn a pentomino
-            pentominoWeight = level * 5 + 10;
+            threadpool.QueueTask(() =>
+            {
+                // When Weight becomes 100+ it will always spawn a pentomino
+                pentominoWeight = level * 5 + 10;
+            });
 
         }
     }

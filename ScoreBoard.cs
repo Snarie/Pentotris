@@ -24,7 +24,7 @@ namespace Pentotris
             this.name = name;
             this.subject = subject;
             this.threadpool = threadpool;
-            subject.Attach(this);
+            subject.AttachClearObserver(this);
         }
         public void Update(int clearedRows)
         {
