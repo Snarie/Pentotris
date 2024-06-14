@@ -74,7 +74,7 @@ namespace Pentotris
         public void LevelUpdate(int level)
         {
             // When Weight becomes 100+ it will always spawn a pentomino
-            pentominoWeight = level * 3 + 10;
+            pentominoWeight = level * 5 + 10;
 
         }
     }

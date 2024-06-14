@@ -224,6 +224,19 @@ namespace Pentotris
         }
 
         /// <summary>
+        /// Draw the ghost block to see where the block would land at hard drop
+        /// </summary>
+        public void DrawGhostBlock()
+        {
+            int dropDistance = BlockDropDistance();
+
+            foreach (Point point in CurrentBlock.TilePosition())
+            {
+                GameGrid[point.Row + dropDistance, point.Column].Icon.Opacity = 0.25;
+                GameGrid[point.Row + dropDistance, point.Column].Icon.Source = GameResources.tileImages[CurrentBlock.Id];
+            }
+        }
+        /// <summary>
         /// Draws the current block on the game grid.
         /// </summary>
         public void DrawBlock()

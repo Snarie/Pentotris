@@ -26,11 +26,13 @@ namespace Pentotris
         }
         public void Operation(int value)
         {
+
+            Icon.Opacity = 1;
             Icon.Source = GameResources.tileImages[value];
         }
         public void Draw()
         {
-            Icon.Source = GameResources.tileImages[Value];
+            Operation(Value);
         }
     }
 }

@@ -51,6 +51,7 @@ namespace Pentotris
             DelayDuration = Math.Max(100, 500 - (20 * level));
         }
 
+        
         /// <summary>
         /// Draws the entire game state including the grid, current block, and next block.
         /// </summary>
@@ -58,6 +59,7 @@ namespace Pentotris
         private void Draw(State state)
         {
             state.DrawGrid();
+            state.DrawGhostBlock();
             state.DrawBlock();
             state.DrawNextBlock(NextImage);
             state.DrawHeldBlock(HoldImage);
